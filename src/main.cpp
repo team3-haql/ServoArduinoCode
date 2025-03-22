@@ -2,9 +2,15 @@
 #include <Arduino.h>
 #include <stdio.h>
 #include <math.h>
+#include <time.h>
+
+#define TEST
+// #define DEBUG
 
 #define SERVO_COUNT 4
 #define START_ANGLE 0
+
+#define BUFFER_SIZE 32
 
 #define MAX_ANGLE 135.0
 #define MIN_ANGLE 45.0
@@ -25,7 +31,9 @@ void setup() {
 		g_servos[i].attach(g_servoPins[i]);
 		g_servos[i].write(START_ANGLE);
 	}
+#ifdef TEST
 	Serial.println("Enter an angle [-1,1]:");
+#endif
 }
 
 void writeToServos(const int valInner, const int valOuter, Direction swap) {
@@ -48,25 +56,42 @@ float lerp(float t) {
 	return ((1 - normalizedT)*MIN_ANGLE + normalizedT*MAX_ANGLE);
 }
 
-void loop() {
-	static float R = 0; 
-    if (Serial.available()>0) {
-        String received = Serial.readStringUntil('\n');  // Read until newline
-        float input = received.toFloat();  // 1 to -1
+void read(char* buffer) {
+	for (int i = 0; i < BUFFER_SIZE; i++) {
+		buffer[i] = Serial.read();
+		if (buffer[i] == '\n') {
+			buffer[i] = '\0';
+			break;
+		}
+	} 
+}
 
+void loop() {
+    if (Serial.available()>1) {
+		static char buffer[BUFFER_SIZE];
+		delay(10);
+		read(buffer);
+        
+        float input = atof(buffer);  // 1 to -1
+	
+	#ifdef DEBUG
 		Serial.print("Input: ");
 		Serial.println(input);
+	#endif
 
 		float thetaInner = abs((lerp(input) - 90)*(PI/180));
 
+	#ifdef DEBUG
 		Serial.print("Theta Inner: ");
 		Serial.println(thetaInner);
+	#endif
 
 		float thetaOuter;
 		float denominator = (L/tan(thetaInner)) + W;
-
+	#ifdef DEBUG
 		Serial.print("Denominator: ");
 		Serial.println(denominator);
+	#endif
 		if (denominator == INFINITY) {
 			thetaOuter = 0.0;
 		}
@@ -76,11 +101,15 @@ void loop() {
 		else {
 			thetaOuter = atan(L / denominator);
 		}
+	#ifdef DEBUG
 		Serial.print("Theta Outer: ");
 		Serial.println(thetaOuter);
+	#endif
 
 		Direction direction = input >= 0 ? Direction::POSITIVE : Direction::NEGATIVE;
 
         writeToServos(thetaInner*(180/PI), thetaOuter*(180/PI), direction);
+
+		Serial.flush();
     }   
 }
