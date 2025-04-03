@@ -5,15 +5,23 @@
 #include <time.h>
 
 #define TEST
-// #define DEBUG
+#define DEBUG
 
-#define SERVO_COUNT 4
+#ifdef DEBUG
+#define LOG(x) Serial.print(x)
+#define LOGLN(x) Serial.println(x)
+#else
+#define LOG(x)
+#define LOGLN(x)
+#endif
+
+#define SERVO_COUNT 2
 #define START_ANGLE 0
 
 #define BUFFER_SIZE 32
 
-#define MAX_ANGLE 135.0
-#define MIN_ANGLE 45.0
+#define MAX_ANGLE 180.0
+#define MIN_ANGLE 0.0
 #define L 1.0
 #define W 1.0
 
@@ -23,7 +31,7 @@ enum class Direction {
 };
 
 Servo g_servos[SERVO_COUNT];  // Create servos
-const int g_servoPins[SERVO_COUNT] = {9, 10, 6, 5};
+const int g_servoPins[SERVO_COUNT] = {6, 9};
 
 void setup() {
 	Serial.begin(9600);  // Start serial communication
@@ -39,15 +47,15 @@ void setup() {
 void writeToServos(const int valInner, const int valOuter, Direction swap) {
 	if (swap == Direction::POSITIVE) {
 		g_servos[0].write(90+valInner);
-		g_servos[1].write(90+valOuter);
-		g_servos[2].write(90-valInner);
-		g_servos[3].write(90-valOuter);
+		// g_servos[1].write(90+valOuter);
+		// g_servos[2].write(90-valInner);
+		// g_servos[3].write(90-valOuter);
 	}
 	else {
-		g_servos[0].write(90-valOuter);
-		g_servos[1].write(90-valInner);
-		g_servos[2].write(90+valOuter);
-		g_servos[3].write(90+valInner);
+		g_servos[1].write(90-valOuter);
+		// g_servos[1].write(90-valInner);
+		// g_servos[2].write(90+valOuter);
+		// g_servos[3].write(90+valInner);
 	}
 }
 
@@ -57,7 +65,7 @@ float lerp(float t) {
 }
 
 void read(char* buffer) {
-	for (int i = 0; i < BUFFER_SIZE; i++) {
+	for (int i = 0; i < BUFFER_SIZE && Serial.available() > 1; i++) {
 		buffer[i] = Serial.read();
 		if (buffer[i] == '\n') {
 			buffer[i] = '\0';
@@ -74,24 +82,20 @@ void loop() {
         
         float input = atof(buffer);  // 1 to -1
 	
-	#ifdef DEBUG
-		Serial.print("Input: ");
-		Serial.println(input);
-	#endif
+		LOG("Input: ");
+		LOGLN(input);
 
 		float thetaInner = abs((lerp(input) - 90)*(PI/180));
 
-	#ifdef DEBUG
-		Serial.print("Theta Inner: ");
-		Serial.println(thetaInner);
-	#endif
+		LOG("Theta Inner: ");
+		LOGLN(thetaInner);
 
 		float thetaOuter;
 		float denominator = (L/tan(thetaInner)) + W;
-	#ifdef DEBUG
-		Serial.print("Denominator: ");
-		Serial.println(denominator);
-	#endif
+
+		LOG("Denominator: ");
+		LOGLN(denominator);
+
 		if (denominator == INFINITY) {
 			thetaOuter = 0.0;
 		}
@@ -101,10 +105,9 @@ void loop() {
 		else {
 			thetaOuter = atan(L / denominator);
 		}
-	#ifdef DEBUG
-		Serial.print("Theta Outer: ");
-		Serial.println(thetaOuter);
-	#endif
+
+		LOG("Theta Outer: ");
+		LOGLN(thetaOuter);
 
 		Direction direction = input >= 0 ? Direction::POSITIVE : Direction::NEGATIVE;
 
