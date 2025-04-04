@@ -20,6 +20,12 @@
 #define DEG2RAD(angle) angle*(PI/180.0)
 #define RAD2DEG(angle) angle*(180.0/PI)
 
+/**
+ * @brief Clamps value between 0 and 1
+ * 
+ * @param value 
+ * @return float 
+ */
 inline float clamp01(float value) {
 	bool lessThan1 = value <= 1;
 	bool valid = value >= 0 && lessThan1;
@@ -27,6 +33,10 @@ inline float clamp01(float value) {
 	return (value*valid) + lessThan1;
 }
 
+/**
+ * @brief Direction that wheels are spun.
+ * 
+ */
 enum class Direction {
 	NEGATIVE = 0,
 	POSITIVE = 1
