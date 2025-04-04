@@ -1,5 +1,7 @@
 #pragma once
 
+#include <time.h>
+
 #include "util.hpp"
 #include "constants.hpp"
 
