@@ -27,7 +27,6 @@ bool serialEmpty() {
  * @param BufferSize
  */
 BufferSize read(char* buffer) {
-    bool done = false;
     BufferSize i = 0;
     for (; i < BUFFER_SIZE-1; i++) {
         while(serialEmpty()) { // Wait until more data is available
@@ -35,7 +34,6 @@ BufferSize read(char* buffer) {
         }
         char character = Serial.read();
         if (character == '\n') { // Exit
-            done = true;
             break;
         }
         LOG(character);
