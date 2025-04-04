@@ -36,6 +36,9 @@ BufferSize read(char* buffer) {
         if (character == '\n') { // Exit
             break;
         }
+        if (!isdigit(character) && character != '.') { // Error
+            return -1;
+        }
         LOG(character);
         buffer[i] = character;
     } 

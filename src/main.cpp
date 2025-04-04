@@ -18,7 +18,10 @@ void setup() {
 void loop() {
     if (Serial.available() >= MIN_CHARS_IN_MESSAGE) {
 		static char buffer[BUFFER_SIZE];
-		read(buffer);
+		if (read(buffer) < 0) {
+			LOGLN("Invalid input!");
+			return;
+		}
         
 		// Cast input
         float input = atof(buffer);  // 1 to -1
