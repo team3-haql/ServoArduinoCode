@@ -13,14 +13,11 @@ static_assert(MAX_TYPE_SIZE(BufferSize) >= BUFFER_SIZE-1, "BufferIterator is too
  * @param buffer 
  */
 void read(char* buffer) {
-    // Precompute size of for loop for better performance
-    // Assumes Serial.available() does not change while for loop is running.
-    const BufferSize size = MIN(BUFFER_SIZE-1, Serial.available());
     BufferSize i = 0;
-    for (; i < size; i++) {
+    for (; i < BUFFER_SIZE-1 && Serial.available() > 0; i++) {
         char character = Serial.read();
-        if (!isdigit(character)) {
-            continue;
+        if (character == '\n') {
+            break;
         }
         buffer[i] = character;
     } 
