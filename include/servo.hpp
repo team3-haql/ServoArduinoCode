@@ -10,7 +10,7 @@ static constexpr int g_servoPins[] = {6, 9};
 #define SERVO_COUNT (sizeof(g_servoPins)/sizeof(g_servoPins[0]))
 typedef unsigned char ServoSize;
 // Makes sure Servo Iterator is large enough to not overflow
-static_assert(MAX_TYPE_SIZE(ServoSize) >= BUFFER_SIZE-1, "ServoIterator is too small!");
+static_assert(MAX_TYPE_SIZE(ServoSize) >= SERVO_COUNT-1, "ServoIterator is too small!");
 
 static Servo g_servos[SERVO_COUNT];  // Create servos
 
