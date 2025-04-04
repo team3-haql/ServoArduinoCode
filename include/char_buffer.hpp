@@ -42,6 +42,6 @@ BufferSize read(char* buffer) {
         buffer[i] = character;
     } 
     buffer[i] = '\0';
-    LOGLN(buffer);
+    LOGLN();
     return i;
 }
