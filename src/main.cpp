@@ -4,22 +4,19 @@
 #include "ackerman.hpp"
 #include "char_buffer.hpp"
 #include "hardware.hpp"
+#include "constants.hpp"
 
 // Enables logging
 #define LOGGING
 
-#define MIN_CHARS_IN_MESSAGE 2
-#define MAX_CHARS_IN_MESSAGE 3
-
 void setup() {
 	Serial.begin(9600);  // Start serial communication
-
+	initServos();        // Initializes servos
 	LOGLN("Enter an angle [-1,1]:");
 }
 
 void loop() {
     if (Serial.available() >= MIN_CHARS_IN_MESSAGE) {
-		// BUFFER_SIZE from char_buffer.hpp
 		static char buffer[BUFFER_SIZE];
 
 		// Read input

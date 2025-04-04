@@ -3,16 +3,14 @@
 #include <Servo.h>
 
 #include "util.hpp"
-
-// Angle servos are initialized to.
-#define START_ANGLE 0
+#include "constants.hpp"
 
 constexpr int g_servoPins[] = {6, 9};
 // Prevents accidental mismatch between servopin size and init list.
 #define SERVO_COUNT (sizeof(g_servoPins)/sizeof(g_servoPins[0]))
-typedef unsigned char ServoIterator;
+typedef unsigned char ServoSize;
 // Makes sure Servo Iterator is large enough to not overflow
-static_assert(MAX_TYPE_SIZE(ServoIterator) >= BUFFER_SIZE-1, "ServoIterator is too small!");
+static_assert(MAX_TYPE_SIZE(ServoSize) >= BUFFER_SIZE-1, "ServoIterator is too small!");
 
 static Servo g_servos[SERVO_COUNT];  // Create servos
 
@@ -21,7 +19,7 @@ static Servo g_servos[SERVO_COUNT];  // Create servos
  * 
  */
 void initServos() {
-	for (ServoIterator i = 0; i < SERVO_COUNT; i++) { // Attach the servo to the defined pin
+	for (ServoSize i = 0; i < SERVO_COUNT; i++) { // Attach the servo to the defined pin
 		g_servos[i].attach(g_servoPins[i]);
 		g_servos[i].write(START_ANGLE);
 	}

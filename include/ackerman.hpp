@@ -1,11 +1,7 @@
 #pragma once
 
-#define MAX_ANGLE 180.0
-#define MIN_ANGLE 0.0
-#define L 1.0
-#define W 1.0
-
 #include "util.hpp"
+#include "constants.hpp"
 
 /**
  * @brief t == -1 => MIN_ANGLE, t == 1 => MAX_ANGLE
