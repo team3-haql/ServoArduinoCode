@@ -3,7 +3,7 @@
 #include "util.hpp"
 #include "constants.hpp"
 
-typedef unsigned char BufferSize;
+typedef signed char BufferSize;
 // Makes sure Buffer Iterator is large enough to not overflow
 static_assert(MAX_TYPE_SIZE(BufferSize) >= BUFFER_SIZE-1, "BufferIterator is too small!");
 
@@ -21,8 +21,10 @@ bool serialEmpty() {
  * @brief Reads from Serial port 
  * 
  * @param buffer 
+ * 
+ * @param BufferSize
  */
-void read(char* buffer) {
+BufferSize read(char* buffer) {
     bool done = false;
     BufferSize i = 0;
     for (; i < BUFFER_SIZE-1; i++) {
@@ -37,4 +39,5 @@ void read(char* buffer) {
         buffer[i] = character;
     } 
     buffer[i] = '\0';
+    return i;
 }
