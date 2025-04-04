@@ -5,7 +5,7 @@
 #include "util.hpp"
 #include "constants.hpp"
 
-constexpr int g_servoPins[] = {6, 9};
+static constexpr int g_servoPins[] = {6, 9};
 // Prevents accidental mismatch between servopin size and init list.
 #define SERVO_COUNT (sizeof(g_servoPins)/sizeof(g_servoPins[0]))
 typedef unsigned char ServoSize;

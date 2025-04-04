@@ -3,7 +3,7 @@
 #include "util.hpp"
 #include "ackerman.hpp"
 #include "char_buffer.hpp"
-#include "hardware.hpp"
+#include "servo.hpp"
 #include "constants.hpp"
 
 // Enables logging
