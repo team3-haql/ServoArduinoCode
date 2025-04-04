@@ -26,7 +26,8 @@ void initServos() {
 }
 
 /**
- * @brief Writes new positions to servos based off ackerman steering equations.
+ * @brief Writes new positions to servos based off ackerman steering equations. 
+ * Graph of servo positions: https://www.desmos.com/calculator/98f1giuocx
  * 
  * @param valInner 
  * @param valOuter 

@@ -16,7 +16,8 @@ inline float lerp(float t) {
 }
 
 /**
- * @brief Calculate Theta Inner and Theta Outer. Graph of equation: https://www.desmos.com/calculator/beqzlbgkme
+ * @brief Calculate Theta Inner and Theta Outer. 
+ * Graph of equations: https://www.desmos.com/calculator/98f1giuocx
  * 
  * @param input Float in [-1,1] (If it is not it will be clamped)
  * @param[out] outAnglesDeg Output array of 2 points
