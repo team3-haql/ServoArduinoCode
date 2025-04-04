@@ -10,7 +10,7 @@
 #define W 1.0
 
 // Angle servos are initialized to.
-#define START_ANGLE 0
+#define START_ANGLE 0.0
 
 // Size of input buffer
 #define BUFFER_SIZE 32

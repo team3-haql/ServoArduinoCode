@@ -12,7 +12,7 @@
 inline float lerp(float t) {
 	float normalizedT = (t + 1.0)/2;
 	normalizedT = clamp01(normalizedT);
-	return ((1 - normalizedT)*MIN_ANGLE + normalizedT*MAX_ANGLE);
+	return ((1.0 - normalizedT)*MIN_ANGLE + normalizedT*MAX_ANGLE);
 }
 
 /**
@@ -23,13 +23,13 @@ inline float lerp(float t) {
  * @param[out] outAnglesDeg Output array of 2 points
  */
 void getThetaInnerAndOuter(float input, float* outAnglesDeg) {
-	float thetaInner = DEG2RAD(abs((lerp(input) - 90)));
+	float thetaInner = DEG2RAD(abs((lerp(input) - 90.0)));
 
 	LOG("Theta Inner: ");
 	LOGLN(thetaInner);
 
 	float denominator = (L/tan(thetaInner)) + W;
-	denominator += 1e-6f - 1e-6f*(denominator == 0);
+	denominator += 1e-6f - 1e-6f*(denominator == 0.0);
 
 	LOG("Denominator: ");
 	LOGLN(denominator);
