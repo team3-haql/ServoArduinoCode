@@ -37,6 +37,10 @@ BufferSize read(char* buffer) {
             break;
         }
         if (!isdigit(character) && character != '.') { // Error
+            LOGLN();
+            LOG("\'");
+            LOG(character);
+            LOGLN("\' is an invalid character!");
             return -1;
         }
         LOG(character);

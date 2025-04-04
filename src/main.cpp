@@ -19,7 +19,6 @@ void loop() {
     if (Serial.available() >= MIN_CHARS_IN_MESSAGE) {
 		static char buffer[BUFFER_SIZE];
 		if (read(buffer) < 0) {
-			LOGLN("Invalid input!");
 			return;
 		}
         
