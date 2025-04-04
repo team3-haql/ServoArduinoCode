@@ -19,7 +19,7 @@ static Servo g_servos[SERVO_COUNT];  // Create servos
  * 
  */
 void initServos() {
-	for (ServoSize i = 0; i < SERVO_COUNT; i++) { // Attach the servo to the defined pin
+	for (ServoSize i = 0; i < static_cast<ServoSize>(SERVO_COUNT); i++) { // Attach the servo to the defined pin
 		g_servos[i].attach(g_servoPins[i]);
 		g_servos[i].write(START_ANGLE);
 	}
