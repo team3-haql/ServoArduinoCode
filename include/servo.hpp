@@ -50,7 +50,7 @@ inline int clampAngle(int angle) {
 
 /**
  * @brief Writes new positions to servos based off ackerman steering equations. 
- * Graph of servo positions: https://www.desmos.com/calculator/98f1giuocx
+ * Graph of servo positions: https://www.desmos.com/calculator/jatjfjew6e
  * 
  * @param valInner int angle in degrees
  * @param valOuter int angle in degrees
