@@ -32,7 +32,7 @@ inline float clamp01(float value) {
 	bool lessThan1 = value <= 1.0;
 	bool valid = value >= 0.0 && lessThan1;
 	
-	return (value*valid) + lessThan1;
+	return (value*valid) + !lessThan1;
 }
 
 /**
