@@ -23,23 +23,35 @@ inline float lerp(float t) {
  * 
  * @param input Float in [-1,1] (If it is not it will be clamped)
  * @param[out] outAnglesDeg Output array of 2 points
+ * 
+ * @return int
  */
-void getThetaInnerAndOuter(float input, float* outAnglesDeg) {
+int getThetaInnerAndOuter(float input, float* outAnglesDeg) {
 	float thetaInner = DEG2RAD(abs((lerp(input) - 90.0)));
 
 	LOGLN("Theta Inner: %.6f" COMMA thetaInner);
 
 	float denominator = (L/tan(thetaInner)) + W;
-	denominator += 1e-6f - 1e-6f*(denominator == 0.0);
+
+	if (denominator != denominator) {
+		LOGLN("ERROR: Denominator is NAN");
+		return -1;
+	}
 
 	LOGLN("Denominator: %.6f" COMMA denominator);
 
 	float thetaOuter = atan(L / denominator);
 
+	if (thetaOuter != thetaOuter) {
+		LOGLN("ERROR: thetaOuter is NAN");
+		return -2;
+	}
+
 	LOGLN("Theta Outer: %.6f" COMMA thetaOuter);
 
 	outAnglesDeg[0] = RAD2DEG(thetaInner);
 	outAnglesDeg[1] = RAD2DEG(thetaOuter);
+	return 0;
 }
 
 } // namespace boden end

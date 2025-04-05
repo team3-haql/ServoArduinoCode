@@ -29,7 +29,9 @@ void loop() {
 
 		// Calculate theta inner and outer
 		float angles[2];
-		boden::getThetaInnerAndOuter(input, angles);
+		if (boden::getThetaInnerAndOuter(input, angles) < 0) {
+			return;
+		}
 
 		// Get direction is rover turning
 		boden::Direction direction = input >= 0 ? boden::Direction::POSITIVE : boden::Direction::NEGATIVE;
