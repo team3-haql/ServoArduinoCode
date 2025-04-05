@@ -11,16 +11,6 @@ typedef signed char BufferSize;
 // Makes sure Buffer Iterator is large enough to not overflow
 static_assert(MAX_TYPE_SIZE(BufferSize) >= BUFFER_SIZE-1, "BufferIterator is too small!");
 
-/**
- * @brief Whether or not serial is empty
- * 
- * @return true 
- * @return false 
- */
-bool serialEmpty() {
-    return Serial.available() == 0;
-}
-
 // Allows input to be + or -
 #define FIRST_LETTER  '\1'
 // Allows input to be e or E
@@ -39,7 +29,7 @@ BufferSize read(char* buffer) {
     BufferSize i = 0;
     char bufferState = FIRST_LETTER;
     for (; i < BUFFER_SIZE-1; i++) {
-        while(serialEmpty()) { // Wait until more data is available
+        while(Serial.available() == 0) { // Wait until more data is available
             delay(1);
         }
         char character = Serial.read();
