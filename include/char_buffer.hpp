@@ -21,6 +21,13 @@ bool serialEmpty() {
     return Serial.available() == 0;
 }
 
+// Allows input to be + or -
+#define FIRST_LETTER  '\1'
+// Allows input to be e or E
+#define COUNTAINS_E   '\2'
+// Allows for .
+#define COUNTAINS_DOT '\4'
+
 /**
  * @brief Reads from Serial port 
  * 
@@ -30,6 +37,7 @@ bool serialEmpty() {
  */
 BufferSize read(char* buffer) {
     BufferSize i = 0;
+    char bufferState = FIRST_LETTER;
     for (; i < BUFFER_SIZE-1; i++) {
         while(serialEmpty()) { // Wait until more data is available
             delay(1);
@@ -38,12 +46,29 @@ BufferSize read(char* buffer) {
         if (character == '\n') { // Exit
             break;
         }
-        if (!isdigit(character) && character != '.' && 
-            character != 'e' && character != 'E' && 
-            character != '-' && character != '+') { // Error
-
-            LOGLN("\n\'%c\' is an invalid character!" COMMA character);
-            return -1;
+        // Makes sure input matches float format. Example:
+        // 1e-6
+        // +0.25
+        // -5E6
+        if (!isdigit(character)) {
+            if (bufferState & FIRST_LETTER && (character == '-' || character == '+')) {
+                bufferState &= ~FIRST_LETTER; // Unset first letter
+            }
+            else if (!(bufferState & COUNTAINS_E) && (character == 'e' || character == 'E')) {
+                bufferState |= COUNTAINS_E; // Set countains e
+                bufferState |= FIRST_LETTER; // Set first letter
+            }
+            else if (!(bufferState & COUNTAINS_DOT) && (character == '.')) {
+                bufferState |= COUNTAINS_DOT;
+            }
+            else {
+                // Error
+                LOGLN("\n\'%c\' is an invalid character!" COMMA character);
+                return -1;
+            }
+        }
+        else {
+            bufferState &= ~FIRST_LETTER; // Unset first letter
         }
         LOG(character);
         buffer[i] = character;
@@ -52,5 +77,8 @@ BufferSize read(char* buffer) {
     LOGLN();
     return i; // Return size
 }
+
+#undef FIRST_LETTER
+#undef COUNTAINS_E
 
 } // namespace boden end
