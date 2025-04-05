@@ -20,6 +20,8 @@
 #define DEG2RAD(angle) angle*(PI/180.0)
 #define RAD2DEG(angle) angle*(180.0/PI)
 
+namespace boden {
+
 /**
  * @brief Clamps value between 0 and 1
  * 
@@ -41,3 +43,5 @@ enum class Direction {
 	NEGATIVE = 0,
 	POSITIVE = 1
 };
+
+} // namespace boden end

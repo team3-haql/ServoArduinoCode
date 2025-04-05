@@ -5,6 +5,8 @@
 #include "util.hpp"
 #include "constants.hpp"
 
+namespace boden {
+
 typedef signed char BufferSize;
 // Makes sure Buffer Iterator is large enough to not overflow
 static_assert(MAX_TYPE_SIZE(BufferSize) >= BUFFER_SIZE-1, "BufferIterator is too small!");
@@ -22,7 +24,7 @@ bool serialEmpty() {
 /**
  * @brief Reads from Serial port 
  * 
- * @param buffer 
+ * @param buffer char*
  * 
  * @param BufferSize
  */
@@ -37,8 +39,7 @@ BufferSize read(char* buffer) {
             break;
         }
         if (!isdigit(character) && character != '.') { // Error
-            LOGLN();
-            LOG("\'");
+            LOG("\n\'");
             LOG(character);
             LOGLN("\' is an invalid character!");
             return -1;
@@ -48,5 +49,7 @@ BufferSize read(char* buffer) {
     } 
     buffer[i] = '\0';
     LOGLN();
-    return i;
+    return i; // Return size
 }
+
+} // namespace boden end

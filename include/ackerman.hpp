@@ -3,6 +3,8 @@
 #include "util.hpp"
 #include "constants.hpp"
 
+namespace boden {
+
 /**
  * @brief t == -1 => MIN_ANGLE, t == 1 => MAX_ANGLE
  * 
@@ -42,3 +44,5 @@ void getThetaInnerAndOuter(float input, float* outAnglesDeg) {
 	outAnglesDeg[0] = RAD2DEG(thetaInner);
 	outAnglesDeg[1] = RAD2DEG(thetaOuter);
 }
+
+} // namespace boden end

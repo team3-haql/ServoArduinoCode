@@ -11,30 +11,30 @@
 
 void setup() {
 	Serial.begin(9600);  // Start serial communication
-	initServos();        // Initializes servos
+	boden::initServos();        // Initializes servos
 	LOGLN("Enter an angle [-1,1]:");
 }
 
 void loop() {
     if (Serial.available() >= MIN_CHARS_IN_MESSAGE) {
 		static char buffer[BUFFER_SIZE];
-		if (read(buffer) < 0) {
+		if (boden::read(buffer) < 0) {
 			return;
 		}
         
 		// Cast input
-        float input = atof(buffer);  // 1 to -1
+        float input = atof(buffer);
 
 		LOG("Input: ");
 		LOGLN(input);
 
 		// Calculate theta inner and outer
 		float angles[2];
-		getThetaInnerAndOuter(input, angles);
+		boden::getThetaInnerAndOuter(input, angles);
 
 		// Get direction is rover turning
-		Direction direction = input >= 0 ? Direction::POSITIVE : Direction::NEGATIVE;
+		boden::Direction direction = input >= 0 ? boden::Direction::POSITIVE : boden::Direction::NEGATIVE;
 		// Write to servos
-        writeToServos(angles[0], angles[1], direction);
+        boden::writeToServos(angles[0], angles[1], direction);
     }   
 }

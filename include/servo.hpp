@@ -5,6 +5,8 @@
 #include "util.hpp"
 #include "constants.hpp"
 
+namespace boden {
+
 static constexpr int g_servoPins[] = {6, 9};
 // Prevents accidental mismatch between servopin size and init list.
 #define SERVO_COUNT (sizeof(g_servoPins)/sizeof(g_servoPins[0]))
@@ -49,3 +51,5 @@ void writeToServos(const int valInner, const int valOuter, Direction swap) {
 		// g_servos[3].write(90+valInner);
 	}
 }
+
+} // namespace boden end
