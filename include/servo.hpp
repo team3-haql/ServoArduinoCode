@@ -35,8 +35,27 @@ void initServos() {
  * @param valInner int angle in degrees
  * @param valOuter int angle in degrees
  * @param swap Direction of inner
+ * 
+ * @return int
  */
-void writeToServos(int valInner, int valOuter, Direction direction) {
+int writeToServos(int valInner, int valOuter, Direction direction) {
+	if (valInner > MAX_ANGLE) {
+		LOGLN("ERROR: %d > %d" COMMA valInner COMMA MAX_ANGLE);
+		return -1;
+	}
+	if (valInner < MIN_ANGLE) {
+		LOGLN("ERROR: %d < %d" COMMA valInner COMMA MIN_ANGLE);
+		return -2;
+	}
+	if (valOuter > MAX_ANGLE) {
+		LOGLN("ERROR: %d > %d" COMMA valOuter COMMA MAX_ANGLE);
+		return -3;
+	}
+	if (valOuter < MIN_ANGLE) {
+		LOGLN("ERROR: %d < %d" COMMA valOuter COMMA MIN_ANGLE);
+		return -4;
+	}
+
 	if (direction == Direction::POSITIVE) {
 		if constexpr(g_servoCount >= 1) // Evaluated at compiletime
 			g_servos[0].write(90+valInner);
@@ -59,6 +78,7 @@ void writeToServos(int valInner, int valOuter, Direction direction) {
 			g_servos[3].write(90+valInner);
 		static_assert(g_servoCount <= 4, "Too many servos! writeToServos cant evaluate them.");
 	}
+	return 0;
 }
 
 } // namespace boden end

@@ -27,19 +27,16 @@ inline float lerp(float t) {
 void getThetaInnerAndOuter(float input, float* outAnglesDeg) {
 	float thetaInner = DEG2RAD(abs((lerp(input) - 90.0)));
 
-	LOG("Theta Inner: ");
-	LOGLN(thetaInner);
+	LOGLN("Theta Inner: %.6f" COMMA thetaInner);
 
 	float denominator = (L/tan(thetaInner)) + W;
 	denominator += 1e-6f - 1e-6f*(denominator == 0.0);
 
-	LOG("Denominator: ");
-	LOGLN(denominator);
+	LOGLN("Denominator: %.6f" COMMA denominator);
 
 	float thetaOuter = atan(L / denominator);
 
-	LOG("Theta Outer: ");
-	LOGLN(thetaOuter);
+	LOGLN("Theta Outer: %.6f" COMMA thetaOuter);
 
 	outAnglesDeg[0] = RAD2DEG(thetaInner);
 	outAnglesDeg[1] = RAD2DEG(thetaOuter);

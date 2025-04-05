@@ -3,6 +3,8 @@
 #include <Arduino.h>
 #include <stdio.h>
 
+#define COMMA ,
+
 #ifdef LOGGING
     #define LOG(x) Serial.print(x)
     #define LOGLN(x) Serial.println(x)

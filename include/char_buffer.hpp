@@ -39,9 +39,7 @@ BufferSize read(char* buffer) {
             break;
         }
         if (!isdigit(character) && character != '.') { // Error
-            LOG("\n\'");
-            LOG(character);
-            LOGLN("\' is an invalid character!");
+            LOGLN("\n\'%c\' is an invalid character!" COMMA character);
             return -1;
         }
         LOG(character);

@@ -25,8 +25,7 @@ void loop() {
 		// Cast input
         float input = atof(buffer);
 
-		LOG("Input: ");
-		LOGLN(input);
+		LOGLN("Input: %.6f" COMMA input);
 
 		// Calculate theta inner and outer
 		float angles[2];
