@@ -38,7 +38,10 @@ BufferSize read(char* buffer) {
         if (character == '\n') { // Exit
             break;
         }
-        if (!isdigit(character) && character != '.' && character != 'e') { // Error
+        if (!isdigit(character) && character != '.' && 
+            character != 'e' && character != 'E' && 
+            character != '-' && character != '+') { // Error
+
             LOGLN("\n\'%c\' is an invalid character!" COMMA character);
             return -1;
         }
