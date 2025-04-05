@@ -34,7 +34,7 @@ void initServos() {
  * 
  * @param valInner int angle in degrees
  * @param valOuter int angle in degrees
- * @param swap Direction of inner
+ * @param direction Direction of inner
  * 
  * @return int
  */
