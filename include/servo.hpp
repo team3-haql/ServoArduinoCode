@@ -29,28 +29,8 @@ void initServos() {
 }
 
 /**
- * @brief Clamps value between MIN_ANGLE and MAX_ANGLE
- * 
- * @param value 
- * @return int 
- */
-inline int clampAngle(int angle) {
-	// Either zero or one for both of these.
-	bool greaterThanMin = angle >= static_cast<int>(MIN_ANGLE);
-	bool lessThanMax = angle <= static_cast<int>(MAX_ANGLE);
-
-	// Prevents branch
-	int originalAngle = angle*(greaterThanMin && lessThanMax);
-	int minAngle = static_cast<int>(MIN_ANGLE)*(!greaterThanMin); // Becomes min angle if it is greater than min
-	int maxAngle = static_cast<int>(MAX_ANGLE)*(!lessThanMax); // Becomes max angle if it is less than max
-
-	// Combine
-	return originalAngle + minAngle + maxAngle;
-}
-
-/**
  * @brief Writes new positions to servos based off ackerman steering equations. 
- * Graph of servo positions: https://www.desmos.com/calculator/jatjfjew6e
+ * Graph of servo positions: https://www.desmos.com/calculator/hd0uh45qs2
  * 
  * @param valInner int angle in degrees
  * @param valOuter int angle in degrees
@@ -59,24 +39,24 @@ inline int clampAngle(int angle) {
 void writeToServos(int valInner, int valOuter, Direction direction) {
 	if (direction == Direction::POSITIVE) {
 		if constexpr(g_servoCount >= 1) // Evaluated at compiletime
-			g_servos[0].write(clampAngle(90+valInner));
+			g_servos[0].write(90+valInner);
 		if constexpr(g_servoCount >= 2)
-			g_servos[1].write(clampAngle(90+valOuter));
+			g_servos[1].write(90+valOuter);
 		if constexpr(g_servoCount >= 3)
-			g_servos[2].write(clampAngle(90-valInner));
+			g_servos[2].write(90-valInner);
 		if constexpr(g_servoCount >= 4)
-			g_servos[3].write(clampAngle(90-valOuter));
+			g_servos[3].write(90-valOuter);
 		static_assert(g_servoCount <= 4, "Too many servos! writeToServos cant evaluate them.");
 	}
 	else {
 		if constexpr(g_servoCount >= 1)
-			g_servos[0].write(clampAngle(90-valOuter));
+			g_servos[0].write(90-valOuter);
 		if constexpr(g_servoCount >= 2)
-			g_servos[1].write(clampAngle(90-valInner));
+			g_servos[1].write(90-valInner);
 		if constexpr(g_servoCount >= 3)
-		g_servos[2].write(clampAngle(90+valOuter));
+		g_servos[2].write(90+valOuter);
 		if constexpr(g_servoCount >= 4)
-			g_servos[3].write(clampAngle(90+valInner));
+			g_servos[3].write(90+valInner);
 		static_assert(g_servoCount <= 4, "Too many servos! writeToServos cant evaluate them.");
 	}
 }
