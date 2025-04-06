@@ -34,6 +34,12 @@
 
 namespace ralphee {
 
+#ifdef LOGGING
+int sput(char c, __attribute__((unused)) FILE* f) {
+	return !Serial.write(c);
+}
+#endif
+
 /**
  * @brief Clamps value between 0 and 1
  * 
