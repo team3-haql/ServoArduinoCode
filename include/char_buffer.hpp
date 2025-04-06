@@ -10,7 +10,8 @@ namespace ralphee {
 typedef int8_t BufferSize;
 // Makes sure Buffer Iterator is large enough to not overflow
 static_assert(MAX_TYPE_SIZE(BufferSize) >= BUFFER_SIZE-1, "BufferIterator is too small!");
-static_assert(static_cast<BufferSize>(-1) < 0);
+// Makes sure BufferSize can return negative values
+static_assert(static_cast<BufferSize>(-1) < 0, "BufferSize returns -1 in read for errors!");
 
 // Allows input to be + or -
 #define FIRST_LETTER '\1'
@@ -58,17 +59,18 @@ BufferSize read(char* buffer) {
                 return -1;
             }
         }
-        else {
+        else { // is digit
             bufferState &= ~FIRST_LETTER; // Unset first letter
         }
         LOG(character);
         buffer[i] = character;
     } 
-    buffer[i] = '\0';
+    buffer[i] = '\0'; // Terminates strings
     LOGLN();
     return i; // Return size
 }
 
+// Undefines constants that wont be used later.
 #undef FIRST_LETTER
 #undef CONTAINS_E
 #undef CONTAINS_DOT

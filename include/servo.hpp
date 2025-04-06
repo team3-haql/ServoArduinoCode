@@ -10,15 +10,18 @@ namespace ralphee {
 // Arduino pin numbers
 static constexpr int32_t g_servoPins[] = {6, 9};
 // Prevents accidental mismatch between servopin size and init list.
-constexpr size_t g_servoCount = sizeof(g_servoPins)/sizeof(g_servoPins[0]);
+static constexpr size_t g_servoCount = sizeof(g_servoPins)/sizeof(g_servoPins[0]);
+
 typedef int8_t ServoSize;
-// Makes sure Servo Iterator is large enough to not overflow
+// Makes sure ServoSizeis large enough to not overflow
 static_assert(MAX_TYPE_SIZE(ServoSize) >= g_servoCount-1, "ServoIterator is too small!");
 
 static Servo g_servos[g_servoCount];  // Create servos
 
 typedef int16_t IntAngle;
+// Makes sure IntAngle is small enough to not underflow
 static_assert(MAX_TYPE_SIZE(IntAngle) >= MAX_ANGLE, "IntAngle is too small!");
+// Makes sure IntAngle is large enough to not overflow
 static_assert(MIN_TYPE_SIZE(IntAngle) <= MIN_ANGLE, "IntAngle is too large!");
 
 /**
