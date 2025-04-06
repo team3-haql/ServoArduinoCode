@@ -16,15 +16,16 @@
 #endif
 
 // Gets min value
-#define MIN(a, b) a*(b > a) + b*(b <= a)
+#define MIN(a, b) b*(b < a) + a*(b >= a)
 // Gets max value
 #define MAX(a, b) a*(b < a) + b*(b >= a)
 
 // Casts bits directly to type, only works on 32 bit systems
-#define BIT_CAST(type, bits) static_cast<type>((static_cast<type>(0u) | (bits >> 8u*(4u - sizeof(type)))))
+#define BIT_CAST(type, bits) static_cast<type>(bits >> (8ul*(4ul - sizeof(type))))
 
 // Gets max type size, only works on 32 bit systems
-#define MAX_TYPE_SIZE(type) MAX(BIT_CAST(type, 0xffffffffu), BIT_CAST(type, 0x7fffffffu))
+#define MIN_TYPE_SIZE(type) MIN(BIT_CAST(type, 0x80000000ul), BIT_CAST(type, 0x00000000ul))
+#define MAX_TYPE_SIZE(type) MAX(BIT_CAST(type, 0xfffffffful), BIT_CAST(type, 0x7ffffffful))
 
 // Converts degrees to radians
 #define DEG2RAD(angle) angle*(PI/180.0)
