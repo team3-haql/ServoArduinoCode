@@ -1,18 +1,18 @@
 #include <time.h>
 
+// Enables logging
+#define LOGGING
+
 #include "util.hpp"
 #include "ackerman.hpp"
 #include "char_buffer.hpp"
 #include "servo.hpp"
 #include "constants.hpp"
 
-// Enables logging
-#define LOGGING
-
 void setup() {
 	Serial.begin(9600);  // Start serial communication
 	ralphee::initServos();        // Initializes servos
-	LOGLN("Enter an angle [-1,1]:");
+	LOG("Enter an angle [-1,1]:\n");
 }
 
 void loop() {
@@ -23,12 +23,12 @@ void loop() {
 		}
         
 		// Cast input
-        float input = atof(buffer);
+        double input = atof(buffer);
 
-		LOGLN("Input: %.6f" COMMA input);
+		LOG("Input: %.6f\n" COMMA input);
 
 		// Calculate theta inner and outer
-		float angles[2];
+		double angles[2];
 		if (ralphee::getThetaInnerAndOuter(input, angles) < 0) {
 			return;
 		}

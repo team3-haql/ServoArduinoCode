@@ -38,7 +38,7 @@ BufferSize read(char* buffer) {
         if (character == '\n') { // Exit
             break;
         }
-        // Makes sure input matches float format. Example:
+        // Makes sure input matches double format. Example:
         // 1e-6
         // +0.25
         // -5E6
@@ -55,18 +55,18 @@ BufferSize read(char* buffer) {
             }
             else {
                 // Error
-                LOGLN("\n\'%c\' is an invalid character!" COMMA character);
+                LOG("\n\'%c\' is an invalid character!\n" COMMA character);
                 return -1;
             }
         }
         else { // is digit
             bufferState &= ~FIRST_LETTER; // Unset first letter
         }
-        LOG(character);
+        LOG("%c" COMMA character);
         buffer[i] = character;
     } 
     buffer[i] = '\0'; // Terminates strings
-    LOGLN();
+    LOG("\n");
     return i; // Return size
 }
 

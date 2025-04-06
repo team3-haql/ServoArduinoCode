@@ -1,21 +1,18 @@
 #pragma once
 
 #include <Arduino.h>
+#include <HardwareSerial.h>
 #include <stdio.h>
 
-// Used to add commas into macros, mostly for LOG and LOGLN
+// Used to add commas into macros, mostly for LOG 
 #define COMMA ,
 
 #ifdef LOGGING
-	// Prints message
-    #define LOG(x) Serial.print(x)
 	// Prints message with new line at end
-    #define LOGLN(x) Serial.println(x)
+    #define LOG(x) printf(x)
 #else
-	// Prints message (disabled)
-    #define LOG(x)
 	// Prints message with new line at end (disabled)
-    #define LOGLN(x)
+    #define LOG(x)
 #endif
 
 // Gets min value
@@ -40,9 +37,9 @@ namespace ralphee {
  * @brief Clamps value between 0 and 1
  * 
  * @param value 
- * @return float 
+ * @return double 
  */
-inline float clamp01(float value) {
+inline double clamp01(double value) {
 	bool lessThan1 = value <= 1.0;
 	bool valid = value >= 0.0 && lessThan1;
 	
