@@ -12,11 +12,11 @@ typedef signed char BufferSize;
 static_assert(MAX_TYPE_SIZE(BufferSize) >= BUFFER_SIZE-1, "BufferIterator is too small!");
 
 // Allows input to be + or -
-#define FIRST_LETTER  '\1'
+#define FIRST_LETTER '\1'
 // Allows input to be e or E
-#define COUNTAINS_E   '\2'
+#define CONTAINS_E   '\2'
 // Allows for .
-#define COUNTAINS_DOT '\4'
+#define CONTAINS_DOT '\4'
 
 /**
  * @brief Reads from Serial port 
@@ -44,12 +44,12 @@ BufferSize read(char* buffer) {
             if (bufferState & FIRST_LETTER && (character == '-' || character == '+')) {
                 bufferState &= ~FIRST_LETTER; // Unset first letter
             }
-            else if (!(bufferState & COUNTAINS_E) && (character == 'e' || character == 'E')) {
-                bufferState |= COUNTAINS_E; // Set countains e
+            else if (!(bufferState & CONTAINS_E) && (character == 'e' || character == 'E')) {
+                bufferState |= CONTAINS_E; // Set countains e
                 bufferState |= FIRST_LETTER; // Set first letter
             }
-            else if (!(bufferState & COUNTAINS_DOT) && (character == '.')) {
-                bufferState |= COUNTAINS_DOT;
+            else if (!(bufferState & CONTAINS_DOT) && (character == '.')) {
+                bufferState |= CONTAINS_DOT;
             }
             else {
                 // Error
@@ -69,6 +69,7 @@ BufferSize read(char* buffer) {
 }
 
 #undef FIRST_LETTER
-#undef COUNTAINS_E
+#undef CONTAINS_E
+#undef CONTAINS_DOT
 
 } // namespace boden end
