@@ -4,15 +4,16 @@
 #include <HardwareSerial.h>
 #include <stdio.h>
 
-// Used to add commas into macros, mostly for LOG 
-#define COMMA ,
-
 #ifdef LOGGING
+	// Prints message
+    #define LOG(x) Serial.print(x); Serial.flush()
 	// Prints message (add \n to end of string for new line)
-    #define LOG(x) printf(x)
+	#define LOGLN(x) Serial.println(x); Serial.flush()
 #else
-	// Prints message (add \n to end of string for new line)
+	// Prints message
     #define LOG(x)
+	// Prints message (add \n to end of string for new line)
+	#define LOGLN(x)
 #endif
 
 // Gets min value

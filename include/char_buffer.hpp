@@ -35,7 +35,11 @@ BufferSize read(char* buffer) {
             delay(1);
         }
         char character = Serial.read();
-        if (character == '\n') { // Exit
+        if (character == '\n') { // Ignore
+            i--;
+            continue;
+        }
+        if (character == '\r') { // Exit
             break;
         }
         // Makes sure input matches double format. Example:
@@ -55,18 +59,18 @@ BufferSize read(char* buffer) {
             }
             else {
                 // Error
-                LOG("\n\'%c\' is an invalid character!\n" COMMA character);
+                LOG('\n'); LOG(static_cast<int>(character)); LOGLN(" is an invalid character!");
                 return -1;
             }
         }
         else { // is digit
             bufferState &= ~FIRST_LETTER; // Unset first letter
         }
-        LOG("%c" COMMA character);
+        LOG(i); LOG(": "); LOGLN(character);
         buffer[i] = character;
     } 
     buffer[i] = '\0'; // Terminates strings
-    LOG("\n");
+    LOGLN(""); LOG(buffer); LOGLN("");
     return i; // Return size
 }
 

@@ -29,7 +29,7 @@ inline double lerp(double t) {
 int8_t getThetaInnerAndOuter(double input, double* outAnglesDeg) {
 	double thetaInner = DEG2RAD(abs((lerp(input) - 90.0)));
 
-	LOG("Theta Inner: %.6f\n" COMMA thetaInner);
+	LOG("Theta Inner: "); LOGLN(thetaInner);
 
 	double denominator = (L/tan(thetaInner)) + W;
 
@@ -38,7 +38,7 @@ int8_t getThetaInnerAndOuter(double input, double* outAnglesDeg) {
 		return -1;
 	}
 
-	LOG("Denominator: %.6f\n" COMMA denominator);
+	LOG("Denominator: "); LOGLN(denominator);
 
 	double thetaOuter = atan(L / denominator);
 
@@ -47,7 +47,7 @@ int8_t getThetaInnerAndOuter(double input, double* outAnglesDeg) {
 		return -2;
 	}
 
-	LOG("Theta Outer: %.6f\n" COMMA thetaOuter);
+	LOG("Theta Outer: "); LOGLN(thetaOuter);
 
 	outAnglesDeg[0] = RAD2DEG(thetaInner);
 	outAnglesDeg[1] = RAD2DEG(thetaOuter);
