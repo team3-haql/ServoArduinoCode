@@ -5,7 +5,7 @@
 #include "util.hpp"
 #include "constants.hpp"
 
-namespace boden {
+namespace ralphee {
 
 // Arduino pin numbers
 static constexpr int g_servoPins[] = {6, 9};

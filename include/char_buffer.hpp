@@ -5,7 +5,7 @@
 #include "util.hpp"
 #include "constants.hpp"
 
-namespace boden {
+namespace ralphee {
 
 typedef signed char BufferSize;
 // Makes sure Buffer Iterator is large enough to not overflow

@@ -11,14 +11,14 @@
 
 void setup() {
 	Serial.begin(9600);  // Start serial communication
-	boden::initServos();        // Initializes servos
+	ralphee::initServos();        // Initializes servos
 	LOGLN("Enter an angle [-1,1]:");
 }
 
 void loop() {
     if (Serial.available() >= MIN_CHARS_IN_MESSAGE) {
 		static char buffer[BUFFER_SIZE];
-		if (boden::read(buffer) < 0) {
+		if (ralphee::read(buffer) < 0) {
 			return;
 		}
         
@@ -29,13 +29,13 @@ void loop() {
 
 		// Calculate theta inner and outer
 		float angles[2];
-		if (boden::getThetaInnerAndOuter(input, angles) < 0) {
+		if (ralphee::getThetaInnerAndOuter(input, angles) < 0) {
 			return;
 		}
 
 		// Get direction is rover turning
-		boden::Direction direction = input >= 0 ? boden::Direction::POSITIVE : boden::Direction::NEGATIVE;
+		ralphee::Direction direction = input >= 0 ? ralphee::Direction::POSITIVE : ralphee::Direction::NEGATIVE;
 		// Write to servos
-        boden::writeToServos(angles[0], angles[1], direction);
+        ralphee::writeToServos(angles[0], angles[1], direction);
     }   
 }

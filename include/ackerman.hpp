@@ -3,7 +3,7 @@
 #include "util.hpp"
 #include "constants.hpp"
 
-namespace boden {
+namespace ralphee {
 
 /**
  * @brief t == -1 => MIN_ANGLE, t == 1 => MAX_ANGLE

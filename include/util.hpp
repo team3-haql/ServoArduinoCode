@@ -22,7 +22,7 @@
 #define DEG2RAD(angle) angle*(PI/180.0)
 #define RAD2DEG(angle) angle*(180.0/PI)
 
-namespace boden {
+namespace ralphee {
 
 /**
  * @brief Clamps value between 0 and 1
