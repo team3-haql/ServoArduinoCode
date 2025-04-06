@@ -33,7 +33,8 @@ static_assert(static_cast<IntAngle>(-1) < 0, "IntAngle must be signed!");
 void initServos() {
 	for (ServoSize i = 0; i < static_cast<ServoSize>(g_servoCount); i++) { // Attach the servo to the defined pin
 		g_servos[i].attach(g_servoPins[i]);
-		g_servos[i].write(START_ANGLE);
+		// Not initializing servo position for safety reasons
+		// g_servos[i].write(START_ANGLE);
 	}
 }
 
