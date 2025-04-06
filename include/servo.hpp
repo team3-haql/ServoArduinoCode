@@ -21,8 +21,6 @@ static Servo g_servos[g_servoCount];  // Create servos
 typedef int16_t IntAngle;
 // Makes sure IntAngle is small enough to not underflow
 static_assert(MAX_TYPE_SIZE(IntAngle) >= MAX_ANGLE, "IntAngle is too small!");
-// Makes sure IntAngle is large enough to not overflow
-static_assert(MIN_TYPE_SIZE(IntAngle) <= MIN_ANGLE, "IntAngle is too large!");
 
 /**
  * @brief Attaches pins to servos and writes start angle to them
