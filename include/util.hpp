@@ -8,10 +8,10 @@
 #define COMMA ,
 
 #ifdef LOGGING
-	// Prints message with new line at end
+	// Prints message (add \n to end of string for new line)
     #define LOG(x) printf(x)
 #else
-	// Prints message with new line at end (disabled)
+	// Prints message (add \n to end of string for new line)
     #define LOG(x)
 #endif
 
