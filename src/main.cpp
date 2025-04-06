@@ -36,6 +36,9 @@ void loop() {
 		// Get direction is rover turning
 		ralphee::Direction direction = input >= 0 ? ralphee::Direction::POSITIVE : ralphee::Direction::NEGATIVE;
 		// Write to servos
-        ralphee::writeToServos(angles[0], angles[1], direction);
+        ralphee::writeToServos(
+			static_cast<ralphee::IntAngle>(angles[0]), 
+			static_cast<ralphee::IntAngle>(angles[1]), 
+			direction);
     }   
 }

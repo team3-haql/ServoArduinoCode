@@ -17,6 +17,8 @@
 #define MAX(a, b) a*(b < a) + b*(b >= a)
 
 #define BIT_CAST(type, bits) static_cast<type>((static_cast<type>(0) | (bits >> 8*(4 - sizeof(type)))))
+
+#define MIN_TYPE_SIZE(type) MIN(BIT_CAST(type, 0x00000000), BIT_CAST(type, 0x80000000))
 #define MAX_TYPE_SIZE(type) MAX(BIT_CAST(type, 0xffffffff), BIT_CAST(type, 0x7fffffff))
 
 #define DEG2RAD(angle) angle*(PI/180.0)
@@ -41,7 +43,7 @@ inline float clamp01(float value) {
  * @brief Direction that wheels are spun.
  * 
  */
-enum class Direction {
+enum class Direction : uint8_t {
 	NEGATIVE = 0,
 	POSITIVE = 1
 };

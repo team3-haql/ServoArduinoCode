@@ -8,14 +8,18 @@
 namespace ralphee {
 
 // Arduino pin numbers
-static constexpr int g_servoPins[] = {6, 9};
+static constexpr int32_t g_servoPins[] = {6, 9};
 // Prevents accidental mismatch between servopin size and init list.
 constexpr size_t g_servoCount = sizeof(g_servoPins)/sizeof(g_servoPins[0]);
-typedef signed char ServoSize;
+typedef int8_t ServoSize;
 // Makes sure Servo Iterator is large enough to not overflow
 static_assert(MAX_TYPE_SIZE(ServoSize) >= g_servoCount-1, "ServoIterator is too small!");
 
 static Servo g_servos[g_servoCount];  // Create servos
+
+typedef int16_t IntAngle;
+static_assert(MAX_TYPE_SIZE(IntAngle) >= MAX_ANGLE, "IntAngle is too small!");
+static_assert(MIN_TYPE_SIZE(IntAngle) <= MIN_ANGLE, "IntAngle is too large!");
 
 /**
  * @brief Attaches pins to servos and writes start angle to them
@@ -32,27 +36,27 @@ void initServos() {
  * @brief Writes new positions to servos based off ackerman steering equations. 
  * Graph of servo positions: https://www.desmos.com/calculator/hd0uh45qs2
  * 
- * @param valInner int angle in degrees
- * @param valOuter int angle in degrees
+ * @param valInner int32_t angle in degrees
+ * @param valOuter int32_t angle in degrees
  * @param direction Direction of inner
  * 
- * @return int
+ * @return int8_t
  */
-int writeToServos(int valInner, int valOuter, Direction direction) {
-	if (valInner > MAX_ANGLE) {
-		LOGLN("ERROR: %d > %d" COMMA valInner COMMA MAX_ANGLE);
+int8_t writeToServos(IntAngle valInner, IntAngle valOuter, Direction direction) {
+	if (valInner + 90 > MAX_ANGLE) {
+		LOGLN("ERROR: %d + 90 > %d" COMMA valInner COMMA MAX_ANGLE);
 		return -1;
 	}
-	if (valInner < MIN_ANGLE) {
-		LOGLN("ERROR: %d < %d" COMMA valInner COMMA MIN_ANGLE);
+	if (valInner - 90 < MIN_ANGLE) {
+		LOGLN("ERROR: %d - 90 < %d" COMMA valInner COMMA MIN_ANGLE);
 		return -2;
 	}
-	if (valOuter > MAX_ANGLE) {
-		LOGLN("ERROR: %d > %d" COMMA valOuter COMMA MAX_ANGLE);
+	if (valOuter + 90 > MAX_ANGLE) {
+		LOGLN("ERROR: %d + 90 > %d" COMMA valOuter COMMA MAX_ANGLE);
 		return -3;
 	}
-	if (valOuter < MIN_ANGLE) {
-		LOGLN("ERROR: %d < %d" COMMA valOuter COMMA MIN_ANGLE);
+	if (valOuter - 90 < MIN_ANGLE) {
+		LOGLN("ERROR: %d - 90 < %d" COMMA valOuter COMMA MIN_ANGLE);
 		return -4;
 	}
 

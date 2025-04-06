@@ -24,9 +24,9 @@ inline float lerp(float t) {
  * @param input Float in [-1,1] (If it is not it will be clamped)
  * @param[out] outAnglesDeg Output array of 2 points
  * 
- * @return int
+ * @return int8_t
  */
-int getThetaInnerAndOuter(float input, float* outAnglesDeg) {
+int8_t getThetaInnerAndOuter(float input, float* outAnglesDeg) {
 	float thetaInner = DEG2RAD(abs((lerp(input) - 90.0)));
 
 	LOGLN("Theta Inner: %.6f" COMMA thetaInner);
