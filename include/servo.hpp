@@ -8,7 +8,7 @@
 namespace ralphee {
 
 // Arduino pin numbers
-static constexpr int32_t g_servoPins[] = {6, 9};
+static constexpr int32_t g_servoPins[] = {10};
 // Prevents accidental mismatch between servopin size and init list.
 static constexpr size_t g_servoCount = sizeof(g_servoPins)/sizeof(g_servoPins[0]);
 
@@ -50,19 +50,19 @@ void initServos() {
  */
 int8_t writeToServos(IntAngle valInner, IntAngle valOuter, Direction direction) {
 	if (valInner + 90 > MAX_ANGLE) {
-		LOG("ERROR: %d + 90 > %.6f\n" COMMA valInner COMMA MAX_ANGLE);
+		// LOG("ERROR: %d + 90 > %.6f\n" COMMA valInner COMMA MAX_ANGLE);
 		return -1;
 	}
 	if (valInner - 90 < MIN_ANGLE) {
-		LOG("ERROR: %d - 90 < %.6f\n" COMMA valInner COMMA MIN_ANGLE);
+		// LOG("ERROR: %d - 90 < %.6f\n" COMMA valInner COMMA MIN_ANGLE);
 		return -2;
 	}
 	if (valOuter + 90 > MAX_ANGLE) {
-		LOG("ERROR: %d + 90 > %.6f\n" COMMA valOuter COMMA MAX_ANGLE);
+		// LOG("ERROR: %d + 90 > %.6f\n" COMMA valOuter COMMA MAX_ANGLE);
 		return -3;
 	}
 	if (valOuter - 90 < MIN_ANGLE) {
-		LOG("ERROR: %d - 90 < %.6f\n" COMMA valOuter COMMA MIN_ANGLE);
+		// LOG("ERROR: %d - 90 < %.6f\n" COMMA valOuter COMMA MIN_ANGLE);
 		return -4;
 	}
 

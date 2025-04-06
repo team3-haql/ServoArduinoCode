@@ -9,7 +9,7 @@
 
 #ifdef LOGGING
 	// Prints message (add \n to end of string for new line)
-    #define LOG(x) printf(x)
+    #define LOG(x) Serial.print(x)
 #else
 	// Prints message (add \n to end of string for new line)
     #define LOG(x)

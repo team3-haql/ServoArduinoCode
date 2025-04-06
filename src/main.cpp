@@ -25,7 +25,9 @@ void loop() {
 		// Cast input
         double input = atof(buffer);
 
-		LOG("Input: %.6f\n" COMMA input);
+		LOG("Input: ");
+		LOG(input);
+		LOG("\n");
 
 		// Calculate theta inner and outer
 		double angles[2];

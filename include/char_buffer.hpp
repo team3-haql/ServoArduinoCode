@@ -55,14 +55,14 @@ BufferSize read(char* buffer) {
             }
             else {
                 // Error
-                LOG("\n\'%c\' is an invalid character!\n" COMMA character);
+                // LOG("\n\'%c\' is an invalid character!\n" COMMA character);
                 return -1;
             }
         }
         else { // is digit
             bufferState &= ~FIRST_LETTER; // Unset first letter
         }
-        LOG("%c" COMMA character);
+        LOG(character);
         buffer[i] = character;
     } 
     buffer[i] = '\0'; // Terminates strings
