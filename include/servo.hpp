@@ -32,9 +32,17 @@ static_assert(static_cast<IntAngle>(-1) < 0, "IntAngle must be signed!");
  */
 void initServos() {
 	for (ServoSize i = 0; i < static_cast<ServoSize>(g_servoCount); i++) { // Attach the servo to the defined pin
+		// Prevents servo twitch
+		
+		// https://forum.arduino.cc/t/easiest-way-to-avoid-servo-twitch-on-power-up/187028/7
+		// Sends power to the servo and fills the capacitor in the shortest amount of time.
+		digitalWrite(g_servoPins[i], 1);
+		// Prevents servo from having enough power to move but servo brain has enough power.
+		digitalWrite(g_servoPins[i], 0);
+		// Reapplies power while still concious.
+		digitalWrite(g_servoPins[i], 1);
 		g_servos[i].attach(g_servoPins[i]);
-		// Not initializing servo position for safety reasons
-		// g_servos[i].write(START_ANGLE);
+		// g_servos[i].write(g_servos[i].read());
 	}
 }
 
