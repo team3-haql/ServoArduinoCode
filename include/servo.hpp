@@ -34,7 +34,6 @@ static_assert(static_cast<IntAngle>(-1) < 0, "IntAngle must be signed!");
  * @param angle angle of servo
  */
 inline void writeServo(uint8_t i, uint8_t angle) {
-	g_servos[i].write(angle);
 	EEPROM.write(g_servoPins[i], angle);
 }
 
@@ -43,13 +42,11 @@ inline void writeServo(uint8_t i, uint8_t angle) {
  * 
  */
 void initServos() {
-	// Prevents servo twitch
+	// TODO: Prevent servo twitch if possible.
 	// https://forum.arduino.cc/t/easiest-way-to-avoid-servo-twitch-on-power-up/187028/14
 	for (ServoSize i = 0; i < static_cast<ServoSize>(g_servoCount); i++) { // Attach the servo to the defined pin
-		uint8_t angle;
-		EEPROM.get(g_servoPins[i], angle);
 		g_servos[i].attach(g_servoPins[i]);
-		g_servos[i].write(angle);
+		g_servos[i].write(START_ANGLE);
 	}
 }
 
