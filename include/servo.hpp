@@ -27,9 +27,15 @@ static_assert(MAX_TYPE_SIZE(IntAngle) >= static_cast<int>(MAX_ANGLE), "IntAngle 
 //
 static_assert(static_cast<IntAngle>(-1) < 0, "IntAngle must be signed!");
 
-inline void writeServo(uint8_t pin, uint8_t angle) {
-	g_servos[pin].write(angle);
-	EEPROM.write(pin, angle);
+/**
+ * @brief Writes servo angle to servo and eeprom
+ * 
+ * @param i index of servo
+ * @param angle angle of servo
+ */
+inline void writeServo(uint8_t i, uint8_t angle) {
+	g_servos[i].write(angle);
+	EEPROM.write(g_servoPins[i], angle);
 }
 
 /**
@@ -37,11 +43,11 @@ inline void writeServo(uint8_t pin, uint8_t angle) {
  * 
  */
 void initServos() {
+	// Prevents servo twitch
+	// https://forum.arduino.cc/t/easiest-way-to-avoid-servo-twitch-on-power-up/187028/14
 	for (ServoSize i = 0; i < static_cast<ServoSize>(g_servoCount); i++) { // Attach the servo to the defined pin
-		// Prevents servo twitch
-		// https://forum.arduino.cc/t/easiest-way-to-avoid-servo-twitch-on-power-up/187028/7
 		uint8_t angle;
-		EEPROM.get(i, angle);
+		EEPROM.get(g_servoPins[i], angle);
 		g_servos[i].attach(g_servoPins[i]);
 		g_servos[i].write(angle);
 	}
