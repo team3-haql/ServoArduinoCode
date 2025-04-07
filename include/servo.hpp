@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Servo.h>
+#include <EEPROM.h>
 
 #include "util.hpp"
 #include "constants.hpp"
@@ -26,6 +27,11 @@ static_assert(MAX_TYPE_SIZE(IntAngle) >= static_cast<int>(MAX_ANGLE), "IntAngle 
 //
 static_assert(static_cast<IntAngle>(-1) < 0, "IntAngle must be signed!");
 
+inline void writeServo(uint8_t pin, uint8_t angle) {
+	g_servos[pin].write(angle);
+	EEPROM.write(pin, angle);
+}
+
 /**
  * @brief Attaches pins to servos and writes start angle to them
  * 
@@ -33,16 +39,11 @@ static_assert(static_cast<IntAngle>(-1) < 0, "IntAngle must be signed!");
 void initServos() {
 	for (ServoSize i = 0; i < static_cast<ServoSize>(g_servoCount); i++) { // Attach the servo to the defined pin
 		// Prevents servo twitch
-		
 		// https://forum.arduino.cc/t/easiest-way-to-avoid-servo-twitch-on-power-up/187028/7
-		// Sends power to the servo and fills the capacitor in the shortest amount of time.
-		digitalWrite(g_servoPins[i], 1);
-		// Prevents servo from having enough power to move but servo brain has enough power.
-		digitalWrite(g_servoPins[i], 0);
-		// Reapplies power while still concious.
-		digitalWrite(g_servoPins[i], 1);
+		uint8_t angle;
+		EEPROM.get(i, angle);
 		g_servos[i].attach(g_servoPins[i]);
-		// g_servos[i].write(g_servos[i].read());
+		g_servos[i].write(angle);
 	}
 }
 
@@ -76,24 +77,24 @@ int8_t writeToServos(IntAngle valInner, IntAngle valOuter, Direction direction) 
 
 	if (direction == Direction::POSITIVE) {
 		if constexpr(g_servoCount >= 1) // Evaluated at compiletime
-			g_servos[0].write(90+valInner);
+			writeServo(0, 90+valInner);
 		if constexpr(g_servoCount >= 2)
-			g_servos[1].write(90+valOuter);
+			writeServo(1, 90+valOuter);
 		if constexpr(g_servoCount >= 3)
-			g_servos[2].write(90-valInner);
+			writeServo(2, 90-valInner);
 		if constexpr(g_servoCount >= 4)
-			g_servos[3].write(90-valOuter);
+			writeServo(3, 90-valOuter);
 		static_assert(g_servoCount <= 4, "Too many servos! writeToServos cant evaluate them.");
 	}
 	else {
 		if constexpr(g_servoCount >= 1)
-			g_servos[0].write(90-valOuter);
+			writeServo(0, 90-valOuter);
 		if constexpr(g_servoCount >= 2)
-			g_servos[1].write(90-valInner);
+			writeServo(1, 90-valInner);
 		if constexpr(g_servoCount >= 3)
-		g_servos[2].write(90+valOuter);
+			writeServo(2, 90+valOuter);
 		if constexpr(g_servoCount >= 4)
-			g_servos[3].write(90+valInner);
+			writeServo(3, 90+valInner);
 		static_assert(g_servoCount <= 4, "Too many servos! writeToServos cant evaluate them.");
 	}
 	return 0;
