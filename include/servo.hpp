@@ -65,7 +65,7 @@ void initServos() {
  */
 int8_t writeToServos(IntAngle valInner, IntAngle valOuter, Direction direction) {
 	if (90 + valInner > MAX_ANGLE) {
-		LOG("ERROR: 90 + "); LOG(valInner); LOG(" < "); LOGLN(MAX_ANGLE);
+		LOG("ERROR: 90 + "); LOG(valInner); LOG(" > "); LOGLN(MAX_ANGLE);
 		return -1;
 	}
 	if (90 - valInner < MIN_ANGLE) {
@@ -73,7 +73,7 @@ int8_t writeToServos(IntAngle valInner, IntAngle valOuter, Direction direction) 
 		return -2;
 	}
 	if (90 + valOuter > MAX_ANGLE) {
-		LOG("ERROR: 90 + "); LOG(valOuter); LOG(" < "); LOGLN(MAX_ANGLE);
+		LOG("ERROR: 90 + "); LOG(valOuter); LOG(" > "); LOGLN(MAX_ANGLE);
 		return -3;
 	}
 	if (90 - valOuter < MIN_ANGLE) {
