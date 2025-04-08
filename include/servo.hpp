@@ -78,25 +78,19 @@ int8_t writeToServos(IntAngle valInner, IntAngle valOuter, Direction direction) 
 	}
 
 	if (direction == Direction::POSITIVE) {
-		if constexpr(g_servoCount >= 1) // Evaluated at compiletime
-			writeServo(0, 90+valInner);
-		if constexpr(g_servoCount >= 2)
-			writeServo(1, 90+valOuter);
-		if constexpr(g_servoCount >= 3)
-			writeServo(2, 90-valInner);
-		if constexpr(g_servoCount >= 4)
-			writeServo(3, 90-valOuter);
+		if constexpr(g_servoCount >= 1) writeServo(0, 90+valInner);
+		if constexpr(g_servoCount >= 2) writeServo(1, 90+valOuter);
+		if constexpr(g_servoCount >= 3) writeServo(2, 90-valInner);
+		if constexpr(g_servoCount >= 4) writeServo(3, 90-valOuter);
+		
 		static_assert(g_servoCount <= 4, "Too many servos! writeToServos cant evaluate them.");
 	}
 	else {
-		if constexpr(g_servoCount >= 1)
-			writeServo(0, 90-valOuter);
-		if constexpr(g_servoCount >= 2)
-			writeServo(1, 90-valInner);
-		if constexpr(g_servoCount >= 3)
-			writeServo(2, 90+valOuter);
-		if constexpr(g_servoCount >= 4)
-			writeServo(3, 90+valInner);
+		if constexpr(g_servoCount >= 1) writeServo(0, 90-valOuter);
+		if constexpr(g_servoCount >= 2) writeServo(1, 90-valInner);
+		if constexpr(g_servoCount >= 3) writeServo(2, 90+valOuter);
+		if constexpr(g_servoCount >= 4) writeServo(3, 90+valInner);
+
 		static_assert(g_servoCount <= 4, "Too many servos! writeToServos cant evaluate them.");
 	}
 	return 0;
