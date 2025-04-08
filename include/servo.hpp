@@ -34,7 +34,7 @@ static_assert(static_cast<IntAngle>(-1) < 0, "IntAngle must be signed!");
  * @param angle angle of servo
  */
 inline void writeServo(uint8_t i, IntAngle angle) {
-	EEPROM.write(g_servoPins[i], angle);
+	g_servos[i].write(angle);
 }
 
 /**
