@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Servo.h>
-#include <EEPROM.h>
 
 #include "util.hpp"
 #include "constants.hpp"
