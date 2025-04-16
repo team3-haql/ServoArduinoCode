@@ -1,7 +1,7 @@
 #include <time.h>
 
 // Enables logging
-#define LOGGING
+// #define LOGGING
 
 #include "util.hpp"
 #include "ackerman.hpp"

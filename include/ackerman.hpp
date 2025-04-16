@@ -31,7 +31,7 @@ int8_t getThetaInnerAndOuter(double input, double* outAnglesDeg) {
 
 	LOG("Theta Inner: "); LOGLN(thetaInner);
 
-	double denominator = (L/tan(thetaInner)) + W;
+	double denominator = (T/tan(thetaInner)) + W;
 
 	if (denominator != denominator) {
 		LOG("ERROR: Denominator is NAN\n");
@@ -40,7 +40,7 @@ int8_t getThetaInnerAndOuter(double input, double* outAnglesDeg) {
 
 	LOG("Denominator: "); LOGLN(denominator);
 
-	double thetaOuter = atan(L / denominator);
+	double thetaOuter = atan(T / denominator);
 
 	if (thetaOuter != thetaOuter) {
 		LOG("ERROR: thetaOuter is NAN\n");

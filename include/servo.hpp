@@ -8,7 +8,7 @@
 namespace ralphee {
 
 // Arduino pin numbers
-static constexpr int32_t g_servoPins[] = {10};
+static constexpr int32_t g_servoPins[] = {3, 5, 6, 9};
 // Prevents accidental mismatch between servopin size and init list.
 static constexpr size_t g_servoCount = sizeof(g_servoPins)/sizeof(g_servoPins[0]);
 
@@ -53,8 +53,8 @@ void initServos() {
  * @brief Writes new positions to servos based off ackerman steering equations. 
  * Graph of servo positions: https://www.desmos.com/calculator/hd0uh45qs2
  * 
- * @param valInner int32_t angle in degrees
- * @param valOuter int32_t angle in degrees
+ * @param valInner IntAngle angle in degrees
+ * @param valOuter IntAngle angle in degrees
  * @param direction Direction of inner
  * 
  * @return int8_t

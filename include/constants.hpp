@@ -4,10 +4,10 @@
 #define MAX_ANGLE 180.0
 // Min angle servos can turn to
 #define MIN_ANGLE 0.0
-// Length of rover
-#define L 1.0
-// Width of rover
-#define W 1.0
+// Trackwidth of rover in meters
+#define T 0.5969
+// Wheelbase of rover in meters
+#define W 0.6858
 
 // Angle servos are initialized to.
 #define START_ANGLE 0.0
