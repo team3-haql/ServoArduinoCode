@@ -17,3 +17,5 @@
 
 // Min chars in message
 #define MIN_CHARS_IN_MESSAGE 2
+
+#define TIME_BETWEEN_SERVO_UPDATES_MS 5
