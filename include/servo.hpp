@@ -26,32 +26,14 @@ static_assert(MAX_TYPE_SIZE(IntAngle) >= static_cast<int>(MAX_ANGLE), "IntAngle 
 //
 static_assert(static_cast<IntAngle>(-1) < 0, "IntAngle must be signed!");
 
-static IntAngle g_servoIdealPoses[g_servoCount];
-
 /**
- * @brief Writes servo ideal angle, updateServos slowly moves servos towards desired pos
+ * @brief Writes servo angle to servo and eeprom
  * 
  * @param i index of servo
- * @param idealAngle ideal angle
+ * @param angle angle of servo
  */
-inline void writeServo(uint8_t i, IntAngle idealAngle)
-{
-	g_servoIdealPoses[i] = idealAngle;
-}
-
-/**
- * @brief Updates servos towards their ideal position
- */
-inline void updateServos() {
-	for (ServoSize i = 0; i < static_cast<ServoSize>(g_servoCount); i++) {
-		IntAngle currAngle = g_servos[i].read();
-		if (g_servoIdealPoses[i] > currAngle) {
-			g_servos[i].write(currAngle + 1);
-		}
-		else if (g_servoIdealPoses[i] < currAngle) {
-			g_servos[i].write(currAngle - 1);
-		}
-	}
+inline void writeServo(uint8_t i, IntAngle angle) {
+	g_servos[i].write(angle);
 }
 
 /**
@@ -63,7 +45,7 @@ void initServos() {
 	// https://forum.arduino.cc/t/easiest-way-to-avoid-servo-twitch-on-power-up/187028/14
 	for (ServoSize i = 0; i < static_cast<ServoSize>(g_servoCount); i++) { // Attach the servo to the defined pin
 		g_servos[i].attach(g_servoPins[i]);
-		g_servoIdealPoses[i] = START_ANGLE;
+		g_servos[i].write(START_ANGLE);
 	}
 }
 
@@ -94,6 +76,7 @@ int8_t writeToServos(IntAngle valInner, IntAngle valOuter, Direction direction) 
 		LOG("ERROR: 90 - "); LOG(valOuter); LOG(" < "); LOGLN(MIN_ANGLE);
 		return -4;
 	}
+
 	if (direction == Direction::POSITIVE) {
 		if constexpr(g_servoCount >= 1) writeServo(0, 90+valInner);
 		if constexpr(g_servoCount >= 2) writeServo(1, 90+valOuter);

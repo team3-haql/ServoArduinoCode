@@ -17,7 +17,6 @@ void setup() {
 }
 
 void loop() {
-	static unsigned long prevTimeMs = millis();
     if (Serial.available() >= MIN_CHARS_IN_MESSAGE) {
 		char buffer[BUFFER_SIZE];
 		LOGLN("READ");
@@ -43,9 +42,5 @@ void loop() {
 			static_cast<ralphee::IntAngle>(angles[0]), 
 			static_cast<ralphee::IntAngle>(angles[1]), 
 			direction);
-    }
-	if (millis() - prevTimeMs >= TIME_BETWEEN_SERVO_UPDATES_MS) { // Update servos every tick
-		prevTimeMs = millis();
-		ralphee::updateServos();
-	}
+    }   
 }
