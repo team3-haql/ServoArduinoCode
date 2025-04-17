@@ -17,6 +17,11 @@ void setup() {
 }
 
 void loop() {
+	ralphee::writeToServos(
+		static_cast<ralphee::IntAngle>(0.0), 
+		static_cast<ralphee::IntAngle>(0.0), 
+		ralphee::Direction::POSITIVE);
+	return;
     if (Serial.available() >= MIN_CHARS_IN_MESSAGE) {
 		char buffer[BUFFER_SIZE];
 		LOGLN("READ");

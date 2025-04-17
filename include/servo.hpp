@@ -27,13 +27,25 @@ static_assert(MAX_TYPE_SIZE(IntAngle) >= static_cast<int>(MAX_ANGLE), "IntAngle 
 static_assert(static_cast<IntAngle>(-1) < 0, "IntAngle must be signed!");
 
 /**
- * @brief Writes servo angle to servo and eeprom
+ * @brief Writes servo angle to servo, moves one degree at time.
  * 
  * @param i index of servo
- * @param angle angle of servo
+ * @param idealAngle ideal angle of servo
+ * 
+ * @return true
+ * @return false
  */
-inline void writeServo(uint8_t i, IntAngle angle) {
-	g_servos[i].write(angle);
+inline bool writeServo(uint8_t i, IntAngle idealAngle) {
+	IntAngle currAngle = g_servos[i].read();
+	if (idealAngle > currAngle) {
+		g_servos[i].write(currAngle + 1);
+		return false;
+	}
+	else if (idealAngle < currAngle) {
+		g_servos[i].write(currAngle - 1);
+		return false;
+	}
+	return true;
 }
 
 /**
@@ -77,21 +89,26 @@ int8_t writeToServos(IntAngle valInner, IntAngle valOuter, Direction direction) 
 		return -4;
 	}
 
-	if (direction == Direction::POSITIVE) {
-		if constexpr(g_servoCount >= 1) writeServo(0, 90+valInner);
-		if constexpr(g_servoCount >= 2) writeServo(1, 90+valOuter);
-		if constexpr(g_servoCount >= 3) writeServo(2, 90-valInner);
-		if constexpr(g_servoCount >= 4) writeServo(3, 90-valOuter);
-		
-		static_assert(g_servoCount <= 4, "Too many servos! writeToServos cant evaluate them.");
-	}
-	else {
-		if constexpr(g_servoCount >= 1) writeServo(0, 90-valOuter);
-		if constexpr(g_servoCount >= 2) writeServo(1, 90-valInner);
-		if constexpr(g_servoCount >= 3) writeServo(2, 90+valOuter);
-		if constexpr(g_servoCount >= 4) writeServo(3, 90+valInner);
-
-		static_assert(g_servoCount <= 4, "Too many servos! writeToServos cant evaluate them.");
+	bool atPosition = false;
+	while (!atPosition) {
+		atPosition = true;
+		if (direction == Direction::POSITIVE) {
+			if constexpr(g_servoCount >= 1) atPosition &= writeServo(0, 90+valInner);
+			if constexpr(g_servoCount >= 2) atPosition &= writeServo(1, 90+valOuter);
+			if constexpr(g_servoCount >= 3) atPosition &= writeServo(2, 90-valInner);
+			if constexpr(g_servoCount >= 4) atPosition &= writeServo(3, 90-valOuter);
+			
+			static_assert(g_servoCount <= 4, "Too many servos! writeToServos cant evaluate them.");
+		}
+		else {
+			if constexpr(g_servoCount >= 1) atPosition &= writeServo(0, 90-valOuter);
+			if constexpr(g_servoCount >= 2) atPosition &= writeServo(1, 90-valInner);
+			if constexpr(g_servoCount >= 3) atPosition &= writeServo(2, 90+valOuter);
+			if constexpr(g_servoCount >= 4) atPosition &= writeServo(3, 90+valInner);
+	
+			static_assert(g_servoCount <= 4, "Too many servos! writeToServos cant evaluate them.");
+		}
+		delay(5);
 	}
 	return 0;
 }
