@@ -43,7 +43,7 @@ inline void writeServo(uint8_t i, IntAngle idealAngle)
  * @brief Updates servos towards their ideal position
  */
 inline void updateServos() {
-	for (ServoSize i = 0; i < g_servoCount; i++) {
+	for (ServoSize i = 0; i < static_cast<ServoSize>(g_servoCount); i++) {
 		IntAngle currAngle = g_servos[i].read();
 		if (g_servoIdealPoses[i] > currAngle) {
 			g_servos[i].write(currAngle + 1);
