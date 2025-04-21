@@ -5,7 +5,7 @@
 // Min angle servos can turn to
 #define MIN_ANGLE 45.0
 // Trackwidth of rover in meters
-#define T 0.5969
+#define T 0.5969/2
 // Wheelbase of rover in meters
 #define W 0.6858
 

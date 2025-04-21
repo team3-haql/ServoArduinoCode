@@ -8,7 +8,7 @@
 namespace ralphee {
 
 // Arduino pin numbers
-static constexpr int32_t g_servoPins[] = {3, 5, 6, 9};
+static constexpr int32_t g_servoPins[] = {5, 3, 9, 6};
 // Prevents accidental mismatch between servopin size and init list.
 static constexpr size_t g_servoCount = sizeof(g_servoPins)/sizeof(g_servoPins[0]);
 
