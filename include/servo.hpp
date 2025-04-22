@@ -25,6 +25,8 @@ static_assert(MIN_TYPE_SIZE(IntAngle) <= static_cast<int>(MAX_ANGLE), "IntAngle 
 static_assert(MAX_TYPE_SIZE(IntAngle) >= static_cast<int>(MAX_ANGLE), "IntAngle is too small!");
 //
 static_assert(static_cast<IntAngle>(-1) < 0, "IntAngle must be signed!");
+// Fixes incorrectly aligned hardware parts
+static constexpr IntAngle g_servoOffsets[4] = {1, 0, 0, 0};
 
 /**
  * @brief Writes servo angle to servo and eeprom
@@ -33,7 +35,7 @@ static_assert(static_cast<IntAngle>(-1) < 0, "IntAngle must be signed!");
  * @param angle angle of servo
  */
 inline void writeServo(uint8_t i, IntAngle angle) {
-	g_servos[i].write(angle);
+	g_servos[i].write(angle + g_servoOffsets[i]);
 }
 
 /**
@@ -45,7 +47,7 @@ void initServos() {
 	// https://forum.arduino.cc/t/easiest-way-to-avoid-servo-twitch-on-power-up/187028/14
 	for (ServoSize i = 0; i < static_cast<ServoSize>(g_servoCount); i++) { // Attach the servo to the defined pin
 		g_servos[i].attach(g_servoPins[i]);
-		g_servos[i].write(START_ANGLE);
+		writeServo(i, START_ANGLE);
 	}
 }
 
